@@ -1,105 +1,141 @@
-# 📚 Experiment 13: Backend with Database (CRUD + Validation)
+# 🚀 Experiment 20: Implement CI/CD Pipeline for Application Deployment
 
-## 📝 Title
-**Connect backend with database and perform CRUD operations along with Validations**
-
----
-
-## 📅 Last Submission Date
-**08 April 2026**
+## 📌 Objective
+To implement a Continuous Integration and Continuous Deployment (CI/CD) pipeline for automated application deployment using Docker and GitHub Actions.
 
 ---
 
-## 🎯 Aim
-To develop a backend server using Flask, connect it with a MySQL database, and implement CRUD operations (Create, Read, Update, Delete) along with input validations.
+## 🧪 Experiment Overview
 
----
-
-## 🧠 Objective
-1. Build RESTful APIs using Flask  
-2. Connect Flask with MySQL database  
-3. Perform CRUD operations on student data  
-4. Validate incoming data using Marshmallow  
-5. Test APIs using Postman  
+This experiment extends Testing Experiment-16 by integrating a CI/CD pipeline that:
+- Builds a Docker image for the backend application
+- Runs the application inside a container
+- Automates build and deployment using GitHub Actions
 
 ---
 
 ## 🛠️ Technologies Used
-- Python  
-- Flask  
-- Flask-SQLAlchemy  
-- PyMySQL  
-- Marshmallow  
-- MySQL (Aiven Cloud Database)  
-- Postman  
+
+- Docker – Containerization
+- GitHub Actions – CI/CD automation
+- Node.js / Backend Framework (from Experiment-16)
+- Git – Version control
 
 ---
+
+## 🐳 Step 1: Create Docker Image
+
+### Dockerfile
+
+```dockerfile
+FROM node:18
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+EXPOSE 5000
+
+CMD ["npm", "start"]
 ```
-##📂 Project Folder Structure
-FSD-II/
-│
-├── backend/
-│   ├── Experiment-13/
-│   │   ├── app.py
-│   │   ├── requirements.txt
-│   │   └── README.md
-│
-└── .gitignore
 
+---
+
+### 🔨 Build Docker Image
+
+```bash
+docker build -t testing-backend .
 ```
 
 ---
 
-## 🗄️ Database Details
+### ▶️ Run Docker Container
 
-- **Database Name:** chandigarh_university_db
-- **Table Name:** students  
-
-### 📊 Table Schema
-
-| Column | Type | Description |
-|--------|------|------------|
-| id | Integer | Primary Key |
-| uid | String | Unique Student ID |
-| name | String | Student Name |
-| age | Integer | Student Age |
-
----
-
-## ⚙️ Backend Implementation
-
-### 🔹 Flask Configuration
-
-```python
-import os
-
-app = Flask(__name__)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///fallback.db")
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+```bash
+docker run -p 5000:5000 testing-backend
 ```
-🌐 Deployment Details
-Backend Deployment: Render
-Database Hosting: Aiven MySQL
-Connection Method: Environment Variable (DATABASE_URL)
 
 ---
 
+## 🔁 Step 2: CI/CD Pipeline using GitHub Actions
 
-##  Learning Outcomes
+### 📄 Workflow File: `.github/workflows/ci-cd.yml`
 
-Understood how to build RESTful APIs using Flask.
-Learned to connect a backend application with a MySQL database using SQLAlchemy ORM.
-Gained hands-on experience in implementing CRUD operations (Create, Read, Update, Delete).
-Learned how to validate user input using Marshmallow schema validation.
-Understood the concept of environment variables for secure database configuration.
+```yaml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        run: npm install
+        working-directory: ./backend
+
+      - name: Run Tests
+        run: npm test
+        working-directory: ./backend
+
+      - name: Build Docker Image
+        run: docker build -t testing-backend ./backend
+
+      - name: Run Docker Container
+        run: docker run -d -p 5000:5000 testing-backend
+```
 
 ---
 
-##  Conclusion
+## 📸 Screenshots to Attach
 
-Understood how to build RESTful APIs using Flask.
-Learned to connect a backend application with a MySQL database using SQLAlchemy ORM.
-Gained hands-on experience in implementing CRUD operations (Create, Read, Update, Delete).
-Learned how to validate user input using Marshmallow schema validation.
-Understood the concept of environment variables for secure database configuration.
+<img width="1599" height="499" alt="Screenshot 2026-04-24 141522" src="https://github.com/user-attachments/assets/c2375e69-bdc2-49b9-873a-95d5993f2d59" />
+
+### 1. Docker Image Creation
+- Output of:
+```
+docker build -t testing-backend .
+docker images
+```
+
+### 2. Running Container
+- Output of:
+```
+docker ps
+```
+
+### 3. GitHub Actions Workflow
+- Screenshot showing:
+  - Workflow execution
+  - Successful run (green tick)
+
+---
+
+## ✅ Expected Outcome
+
+- Docker image successfully created  
+- Backend runs inside container  
+- CI/CD pipeline triggers automatically on push  
+- Tests executed and deployment completed  
+
+---
+
+## 📚 Conclusion
+
+This experiment demonstrates how CI/CD pipelines automate software delivery. Docker ensures consistency across environments, and GitHub Actions enables seamless integration and deployment.
+
