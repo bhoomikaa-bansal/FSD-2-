@@ -81,6 +81,13 @@ The services demonstrate:
 - Data aggregation across services
 - Error handling for service unavailability
 
+## Screenshots
+<img width="1599" height="807" alt="Screenshot 2026-04-22 114100" src="https://github.com/user-attachments/assets/274d6439-e777-4afd-8f77-2633346f19fe" />
+<img width="1599" height="804" alt="Screenshot 2026-04-22 114111" src="https://github.com/user-attachments/assets/bdf02e79-9ff0-45ce-a1f4-454b648e2295" />
+<img width="1599" height="810" alt="Screenshot 2026-04-22 114133" src="https://github.com/user-attachments/assets/dcf46703-1871-4b2e-965c-f59b3920e006" />
+<img width="214" height="374" alt="Screenshot 2026-04-24 142229" src="https://github.com/user-attachments/assets/c8d6e606-8785-4d65-b2e4-d2b7762f7366" />
+
+
 ## Notes
 - Both services run in debug mode for development
 - The Customer Service calls the Order Service synchronously
